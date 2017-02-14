@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Searching String</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container" id="app">
+        <div class="row">
+            <div class="col-md-4">
+                <h3>条件 - {{conditions.length}}：</h3>
+                <ol class="list-group">
+                    <li v-for="(condition, index) in conditions" class="list-group-item" v-bind:class="{ active: condition.counter }">
+                        {{index+1}} - {{ condition.text }}<span class="badge">{{condition.counter}}</span>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-md-8">
+                <h3>输入：</h3>
+                <div class="form-group">
+                    <textarea v-model="message" placeholder="Please input the searching......" rows="10" cols="100"></textarea>
+                </div>
+                <button class="btn btn-default" @click="search">Search</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+    // 定义“关注”查询条件后之关键字，例如：关注“买车”
+    var conditions = [{
+        text: "买车",
+        counter: 0
+    }, {
+        text: "品牌",
+        counter: 0
+    }, {
+        text: "价格",
+        counter: 0
+    }, {
+        text: "安全性",
+        counter: 0
+    }, {
+        text: "质量",
+        counter: 0
+    }, {
+        text: "油耗",
+        counter: 0,
+        color: ""
+    }, {
+        text: "空间",
+        counter: 0
+    }, {
+        text: "保养成本",
+        counter: 0
+    }, {
+        text: "综合配置",
+        counter: 0
+    }, {
+        text: "舒适性",
+        counter: 0
+    }, {
+        text: "动力性",
+        counter: 0,
+        color: ""
+    }, {
+        text: "操控性",
+        counter: 0
+    }, {
+        text: "外观",
+        counter: 0
+    }, {
+        text: "内饰",
+        counter: 0
+    }, {
+        text: "科技含量",
+        counter: 0
+    }];
+
+    //创建Vue实例
+    var app = new Vue({
+        el: '#app',
+        data: {
+            conditions: conditions,
+            counter: 0,
+            message: ""
+        },
+        // 在 `methods` 对象中定义search方法
+        methods: {
+            search: function(event) {
+                var str = this.message;
+                //遍历 正则匹配
+                for (var i = 0; i < conditions.length; i++) {
+                    var c = "关注" + conditions[i].text; // 要查询的关键字
+                    //console.log(c);
+                    var regex = new RegExp(c, 'g'); // 使用g表示整个字符串都要匹配
+                    var result = str.match(regex);
+                    // console.log(result);
+                    var count = !result ? 0 : result.length;
+                    conditions[i].counter = count;
+                }
+            }
+        }
+    })
+    </script>
+</body>
+
+</html>
